@@ -32,9 +32,16 @@ function Get-BcApiUrl
         [Parameter(Mandatory, ParameterSetName = 'Custom')]
         [string]$ApiGroup,
 
+        [Parameter(Mandatory, ParameterSetName = 'Custom')]
+        [string]$ApiVersion,
+
         [Parameter(ParameterSetName = 'Standard')]
         [ValidateNotNullOrEmpty()]
         [string]$StandardVersion = 'v2.0',
+
+        [Parameter(ParameterSetName = 'Automation')]
+        [ValidateNotNullOrEmpty()]
+        [string]$AutomationVersion = 'v2.0',
 
         [Parameter(Mandatory, ParameterSetName = 'StandardBeta')]
         [Parameter(Mandatory, ParameterSetName = 'Standard')]
@@ -43,7 +50,13 @@ function Get-BcApiUrl
         [guid]$CompanyId,
 
         [Parameter(Mandatory, ParameterSetName = 'ODataWebServices')]
-        [string]$CompanyName
+        [string]$CompanyName,
+
+        [Parameter(Mandatory ,ParameterSetName = 'Custom')]
+        [string]$EntitySetName,
+
+        [Parameter(Mandatory, ParameterSetName = 'ODataWebServices')]
+        [string]$ServiceName
     )
 
     @(
@@ -51,11 +64,17 @@ function Get-BcApiUrl
         $TenantId,
         $Environment,
         ($ODataWebservices ? 'ODataV4' : 'api'),
-        ($StandardBeta ? 'microsoft' : $null),
+        ($StandardBeta -or $Automation ? 'microsoft' : $null),
+        ($Custom ? $ApiPublisher : $null),
         ($StandardBeta -or $Custom ? $ApiGroup : $null),
+        ($Automation ? 'automation' : $null),
         ($StandardBeta ? 'beta' : $null),
         ($Standard ? $StandardVersion : $null),
-        ($ODataWebservices ? $null : "companies($CompanyId)")
+        ($Custom ? $ApiVersion : $null),
+        ($Automation ? $AutomationVersion : $null),
+        ($ODataWebservices ? "companies($CompanyName)" : "companies($CompanyId)"),
+        ($Custom ? $EntitySetName : $null),
+        ($ODataWebservices ? $ServiceName : $null)
     )
     | Where-Object { $_ }
     | Join-String -Separator '/'
