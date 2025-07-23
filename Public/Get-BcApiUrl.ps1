@@ -78,6 +78,5 @@ function Get-BcApiUrl
     )
     | Where-Object { $_ }
     | Join-String -Separator '/'
-
-    # FIXME: Urlencode?
+    | ForEach-Object { [System.Uri]::EscapeUriString($_) }
 }
