@@ -11,11 +11,24 @@ Describe 'Get-BcApiUrl' {
             $TenantId = New-Guid
             $CompanyId = New-Guid
             $Environment = 'My Environment'
+            $ApiPublisher = 'myApiPublisher'
+            $ApiGroup = 'myApiGroup'
+            $StandardVersion = 'V2.0'
         }
 
-		It 'Standard Beta' {
-            Get-BcApiUrl -StandardBeta -TenantId $TenantId -Environment $Environment -CompanyId $CompanyId
-            | Should -Be "https://https://api.businesscentral.dynamics.com/v2.0/$TenantId/$Environment/api/microsoft/{APIGroup}/beta/companies({id})/"
+		It 'StandardBeta' {
+            Get-BcApiUrl -StandardBeta -TenantId $TenantId -Environment $Environment -CompanyId $CompanyId -ApiGroup $ApiGroup
+            | Should -Be "https://api.businesscentral.dynamics.com/v2.0/$TenantId/$Environment/api/microsoft/$ApiGroup/beta/companies($CompanyId)"
 		}
+
+        It 'Standard' {
+            Get-BcApiUrl -Standard -TenantId $TenantId -Environment $Environment -StandardVersion $StandardVersion -CompanyId $CompanyId
+            | Should -Be "https://api.businesscentral.dynamics.com/v2.0/$TenantId/$Environment/api/$StandardVersion/companies($CompanyId)"
+        }
+
+        It 'Custom' {
+            Get-BcApiUrl -Custom -TenantId $TenantId -Environment $Environment -CompanyId $CompanyId -ApiPublisher $ApiPublisher -ApiGroup $ApiGroup
+            | Should -Be "https://api.businesscentral.dynamics.com/v2.0/$TenantId/$Environment/api/$ApiPublisher/$ApiGroup/$ApiVersion/companies($CompanyId)/$EntitySetName"
+        }
 	}
 }

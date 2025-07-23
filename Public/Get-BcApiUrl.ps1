@@ -50,12 +50,16 @@ function Get-BcApiUrl
         'https://api.businesscentral.dynamics.com/v2.0',
         $TenantId,
         $Environment,
-        $ODataWebservices ? 'ODataV4' : 'api',
-        $Standard ? $StandardVersion : $null,
-        $ODataWebservices ? $null : "companies($CompanyId)"
+        ($ODataWebservices ? 'ODataV4' : 'api'),
+        ($StandardBeta ? 'microsoft' : $null),
+        ($StandardBeta -or $Custom ? $ApiGroup : $null),
+        ($StandardBeta ? 'beta' : $null),
+        ($Standard ? $StandardVersion : $null),
+        ($ODataWebservices ? $null : "companies($CompanyId)")
     )
     | Where-Object { $_ }
     | Join-String -Separator '/'
 
     # FIXME: Urlencode?
+    # FIXME: No superfluous parameters (parametersets!)
 }
