@@ -15,6 +15,7 @@ Describe 'Get-BcApiUrl' {
 
 		It 'Standard Beta' {
             Get-BcApiUrl -StandardBeta -TenantId $TenantId -Environment $Environment -CompanyId $CompanyId
+            | Should -Be "https://https://api.businesscentral.dynamics.com/v2.0/$TenantId/$Environment/api/microsoft/{APIGroup}/beta/companies({id})/"
 		}
 	}
 }

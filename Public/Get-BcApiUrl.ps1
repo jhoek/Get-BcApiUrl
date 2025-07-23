@@ -25,6 +25,13 @@ function Get-BcApiUrl
         [Parameter(Mandatory)]
         [string]$Environment,
 
+        [Parameter(Mandatory, ParameterSetName = 'Custom')]
+        [string]$ApiPublisher,
+
+        [Parameter(Mandatory, ParameterSetName = 'StandardBeta')]
+        [Parameter(Mandatory, ParameterSetName = 'Custom')]
+        [string]$ApiGroup,
+
         [Parameter(ParameterSetName = 'Standard')]
         [ValidateNotNullOrEmpty()]
         [string]$StandardVersion = 'v2.0',
@@ -49,4 +56,6 @@ function Get-BcApiUrl
     )
     | Where-Object { $_ }
     | Join-String -Separator '/'
+
+    # FIXME: Urlencode?
 }
