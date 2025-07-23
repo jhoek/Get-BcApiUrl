@@ -1,4 +1,10 @@
-# https://yzhums.com/52262
+<#
+.SYNOPSIS
+Builds the url for a Business Central (standard, custom, automation) API or OData webservice.
+
+.LINK
+https://yzhums.com/52262
+#>
 function Get-BcApiUrl
 {
     [CmdletBinding(DefaultParameterSetName = 'Custom')]
