@@ -4,19 +4,19 @@ function Get-BcApiUrl
     [CmdletBinding(DefaultParameterSetName = 'Custom')]
     param
     (
-        [Parameter(ParameterSetName = 'StandardBeta')]
+        [Parameter(Mandatory, ParameterSetName = 'StandardBeta')]
         [switch]$StandardBeta,
 
-        [Parameter(ParameterSetName = 'Standard')]
+        [Parameter(Mandatory, ParameterSetName = 'Standard')]
         [switch]$Standard,
 
-        [Parameter(ParameterSetName = 'Custom')]
+        [Parameter(Mandatory, ParameterSetName = 'Custom')]
         [switch]$Custom,
 
-        [Parameter(ParameterSetName = 'Automation')]
+        [Parameter(Mandatory, ParameterSetName = 'Automation')]
         [switch]$Automation,
 
-        [Parameter(ParameterSetName = 'ODataWebServices')]
+        [Parameter(Mandatory, ParameterSetName = 'ODataWebServices')]
         [switch]$ODataWebservices,
 
         [Parameter(Mandatory)]
