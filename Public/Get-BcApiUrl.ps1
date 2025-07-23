@@ -80,5 +80,4 @@ function Get-BcApiUrl
     | Join-String -Separator '/'
 
     # FIXME: Urlencode?
-    # FIXME: No superfluous parameters (parametersets!)
 }
